@@ -755,6 +755,10 @@
       .heart { display: none; }
     }
   </style>
+
+    <script type="module">
+  import * as Turbo from "https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.18/+esm";
+</script>
 </head>
 
 <body>
@@ -1117,251 +1121,316 @@
     })();
   </script>
 
-  <!-- REPRODUCTOR MUSICAL -->
-  <div class="music-player" id="musicPlayer">
-    <audio id="siteAudio" preload="metadata">
-      <source src="./tema/Trueno - SOLO POR VOS (Video Oficial).mp3" type="audio/mpeg">
-    </audio>
 
-    <button class="music-play" id="musicPlay" aria-label="Reproducir canción" type="button">
-      ▶
-    </button>
+<!-- REPRODUCTOR MUSICAL -->
+<div class="music-player" id="musicPlayer" data-turbo-permanent>
+  <audio id="siteAudio" preload="metadata">
+    <source src="./tema/Trueno - SOLO POR VOS (Video Oficial).mp3" type="audio/mpeg">
+  </audio>
 
-    <div class="music-info">
-      <span class="music-title">Nuestra canción ♡</span>
-      <span class="music-status" id="musicStatus">Una canción para vos</span>
-    </div>
+  <button class="music-play" id="musicPlay" aria-label="Reproducir canción" type="button">
+    ▶
+  </button>
 
-    <button class="music-volume-icon" id="volumeToggle" type="button" aria-label="Silenciar o activar sonido">
-      ♫
-    </button>
-
-    <input
-      class="music-volume"
-      id="musicVolume"
-      type="range"
-      min="0"
-      max="1"
-      step="0.01"
-      value="0.6"
-      aria-label="Volumen"
-    >
+  <div class="music-info">
+    <span class="music-title">Nuestra canción ♡</span>
+    <span class="music-status" id="musicStatus">Una canción para vos</span>
   </div>
 
-  <style>
-    .music-player {
-      position: fixed;
-      z-index: 50;
-      left: 18px;
-      bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      width: min(330px, calc(100vw - 28px));
-      padding: 12px 14px;
-      border: 1px solid #e8cbd2;
-      border-radius: 18px;
-      background: rgba(255, 250, 247, .96);
-      box-shadow: 0 8px 30px rgba(91, 49, 62, .15);
-      backdrop-filter: blur(12px);
-      color: #bd4e70;
-    }
+  <button class="music-volume-icon" id="volumeToggle" type="button" aria-label="Silenciar o activar sonido">
+    ♫
+  </button>
 
-    .music-player button {
-      flex-shrink: 0;
-      cursor: pointer;
-      font-family: "Poppins", sans-serif;
+  <input
+    class="music-volume"
+    id="musicVolume"
+    type="range"
+    min="0"
+    max="1"
+    step="0.01"
+    value="0.6"
+    aria-label="Volumen"
+  >
+</div>
+
+<style>
+  .music-player {
+    position: fixed;
+    z-index: 9999;
+    left: 18px;
+    bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: min(330px, calc(100vw - 28px));
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #e8cbd2;
+    border-radius: 18px;
+    background: rgba(255, 250, 247, 0.96);
+    box-shadow: 0 8px 30px rgba(91, 49, 62, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #bd4e70;
+    font-family: "Poppins", sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .music-player * {
+    box-sizing: border-box;
+  }
+
+  .music-player button {
+    flex-shrink: 0;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+  }
+
+  .music-play {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #d96b89;
+    color: white;
+    font-size: 16px;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .music-play:hover {
+    transform: scale(1.07);
+    background: #bd4e70;
+  }
+
+  .music-play:active {
+    transform: scale(0.95);
+  }
+
+  .music-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    gap: 3px;
+  }
+
+  .music-title {
+    overflow: hidden;
+    color: #754654;
+    font-size: 12px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .music-status {
+    overflow: hidden;
+    color: #a98b93;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .music-volume-icon {
+    padding: 5px;
+    border: 0;
+    background: transparent;
+    color: #bd4e70;
+    font-size: 18px;
+  }
+
+  .music-volume {
+    width: 65px;
+    min-width: 0;
+    accent-color: #d96b89;
+    cursor: pointer;
+  }
+
+  @media (max-width: 400px) {
+    .music-player {
+      left: 10px;
+      bottom: 10px;
+      gap: 8px;
+      width: calc(100vw - 20px);
+      padding: 10px;
     }
 
     .music-play {
-      display: grid;
-      place-items: center;
-      width: 42px;
-      height: 42px;
-      border: 0;
-      border-radius: 50%;
-      background: #d96b89;
-      color: white;
-      font-size: 16px;
-      transition: transform .2s, background .2s;
-    }
-
-    .music-play:hover {
-      transform: scale(1.07);
-      background: #bd4e70;
-    }
-
-    .music-info {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      min-width: 0;
-      gap: 3px;
-    }
-
-    .music-title {
-      overflow: hidden;
-      color: #754654;
-      font-size: 12px;
-      font-weight: 600;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .music-status {
-      color: #a98b93;
-      font-size: 10px;
-    }
-
-    .music-volume-icon {
-      padding: 5px;
-      border: 0;
-      background: transparent;
-      color: #bd4e70;
-      font-size: 18px;
+      width: 40px;
+      height: 40px;
     }
 
     .music-volume {
-      width: 65px;
-      accent-color: #d96b89;
-      cursor: pointer;
+      width: 42px;
     }
+  }
 
-    @media (max-width: 400px) {
-      .music-player {
-        left: 10px;
-        bottom: 10px;
-        gap: 8px;
-        padding: 10px;
-      }
-
-      .music-volume { width: 48px; }
+  @media (hover: none) {
+    .music-play:hover {
+      transform: none;
     }
-  </style>
+  }
+</style>
 
-  <script>
-  (() => {
-    const audio = document.getElementById("siteAudio");
-    const playButton = document.getElementById("musicPlay");
-    const status = document.getElementById("musicStatus");
-    const volume = document.getElementById("musicVolume");
-    const volumeToggle = document.getElementById("volumeToggle");
+<script>
+(() => {
+  const audio = document.getElementById("siteAudio");
+  const playButton = document.getElementById("musicPlay");
+  const status = document.getElementById("musicStatus");
+  const volume = document.getElementById("musicVolume");
+  const volumeToggle = document.getElementById("volumeToggle");
 
-    if (!audio || !playButton) return;
+  if (!audio || !playButton || !status || !volume || !volumeToggle) {
+    return;
+  }
 
-    const KEY = "lunaMusicPlayer";
-    let saved = {};
+  // Evita registrar los eventos dos veces en el mismo reproductor.
+  if (audio.dataset.playerInitialized === "true") {
+    return;
+  }
 
+  audio.dataset.playerInitialized = "true";
+
+  const KEY = "lunaMusicPlayer";
+  let saved = {};
+
+  try {
+    saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+  } catch (error) {
+    saved = {};
+  }
+
+  audio.volume = typeof saved.volume === "number"
+    ? Math.max(0, Math.min(1, saved.volume))
+    : 0.6;
+
+  volume.value = audio.volume;
+
+  function saveState() {
     try {
-      saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
-    } catch (error) {
-      saved = {};
+      localStorage.setItem(KEY, JSON.stringify({
+        time: audio.currentTime || 0,
+        volume: audio.volume,
+        playing: !audio.paused && !audio.ended
+      }));
+    } catch (error) {}
+  }
+
+  function updatePlayer() {
+    playButton.textContent = audio.paused ? "▶" : "Ⅱ";
+
+    playButton.setAttribute(
+      "aria-label",
+      audio.paused ? "Reproducir canción" : "Pausar canción"
+    );
+
+    volumeToggle.textContent =
+      audio.muted || audio.volume === 0 ? "♪" : "♫";
+
+    if (audio.error) {
+      status.textContent = "No se pudo cargar la canción";
+    } else if (audio.paused) {
+      status.textContent = "Una canción para vos ♡";
+    } else {
+      status.textContent = "Sonando para vos ♡";
     }
 
-    audio.volume = typeof saved.volume === "number" ? saved.volume : 0.6;
-    volume.value = audio.volume;
+    saveState();
+  }
 
-    function saveState() {
-      try {
-        localStorage.setItem(KEY, JSON.stringify({
-          time: audio.currentTime || 0,
-          volume: audio.volume,
-          playing: !audio.paused && !audio.ended
-        }));
-      } catch (error) {}
+  // El audio se reproduce únicamente cuando la persona toca el botón.
+  playButton.addEventListener("click", () => {
+    if (!audio.paused) {
+      audio.pause();
+      return;
     }
 
-    function updatePlayer() {
-      playButton.textContent = audio.paused ? "▶" : "Ⅱ";
-      playButton.setAttribute(
-        "aria-label",
-        audio.paused ? "Reproducir canción" : "Pausar canción"
-      );
+    status.textContent = "Cargando canción...";
 
-      if (audio.error) {
-        status.textContent = "No se pudo cargar la canción";
-      } else {
-        status.textContent = audio.paused ? "Pausada ♡" : "Sonando para vos ♡";
-      }
+    // play() se ejecuta directamente dentro del evento del botón.
+    const playPromise = audio.play();
 
-      saveState();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch((error) => {
+        console.error("Error al reproducir la canción:", error);
+
+        if (audio.error) {
+          status.textContent = "Error al cargar el audio";
+        } else {
+          status.textContent = "No se pudo reproducir. Tocá ▶ otra vez";
+        }
+
+        updatePlayer();
+      });
     }
+  });
 
-    playButton.addEventListener("click", async () => {
-      if (audio.paused) {
-        try {
-          await audio.play();
-        } catch (error) {
-          status.textContent = "Tocá de nuevo para reproducir";
-        }
-      } else {
-        audio.pause();
-      }
+  volume.addEventListener("input", () => {
+    audio.volume = Number(volume.value);
+    audio.muted = audio.volume === 0;
+    updatePlayer();
+  });
 
-      updatePlayer();
-    });
+  volumeToggle.addEventListener("click", () => {
+    audio.muted = !audio.muted;
 
-    volume.addEventListener("input", () => {
-      audio.volume = Number(volume.value);
-      if (audio.volume > 0) audio.muted = false;
-      volumeToggle.textContent = audio.muted || audio.volume === 0 ? "♪" : "♫";
-      saveState();
-    });
-
-    volumeToggle.addEventListener("click", () => {
-      audio.muted = !audio.muted;
-      volumeToggle.textContent = audio.muted ? "♪" : "♫";
-
-      if (!audio.muted && audio.volume === 0) {
-        audio.volume = 0.6;
-        volume.value = 0.6;
-      }
-
-      saveState();
-    });
-
-    audio.addEventListener("play", updatePlayer);
-    audio.addEventListener("pause", updatePlayer);
-    audio.addEventListener("ended", () => {
-      status.textContent = "La canción terminó ♡";
-      saveState();
-    });
-
-    audio.addEventListener("error", () => {
-      status.textContent = "Revisá el archivo de audio";
-    });
-
-    audio.addEventListener("timeupdate", () => {
-      if (!audio.paused) saveState();
-    });
-
-    // Recupera el punto de reproducción al cargar la otra página.
-    audio.addEventListener("loadedmetadata", async () => {
-      try {
-        if (Number.isFinite(saved.time) && saved.time > 0) {
-          audio.currentTime = Math.min(
-            saved.time,
-            Math.max(0, audio.duration - 0.5)
-          );
-        }
-
-        if (saved.playing) {
-          try {
-            await audio.play();
-          } catch (error) {
-            status.textContent = "Tocá ▶ para continuar la canción";
-          }
-        }
-      } catch (error) {}
-
-      updatePlayer();
-    }, { once: true });
-
-    // Guarda el estado justo antes de abandonar la página.
-    window.addEventListener("pagehide", saveState);
+    if (!audio.muted && audio.volume === 0) {
+      audio.volume = 0.6;
+      volume.value = 0.6;
+    }
 
     updatePlayer();
-  })();
-  </script>
+  });
+
+  audio.addEventListener("play", updatePlayer);
+  audio.addEventListener("pause", updatePlayer);
+
+  audio.addEventListener("ended", () => {
+    status.textContent = "La canción terminó ♡";
+    saveState();
+  });
+
+  audio.addEventListener("error", () => {
+    status.textContent = "Error al cargar el archivo de audio";
+    console.error("Error del audio:", audio.error);
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    if (!audio.paused) {
+      saveState();
+    }
+  });
+
+  // Recupera el punto de reproducción sin iniciar música automáticamente.
+  audio.addEventListener("loadedmetadata", () => {
+    try {
+      if (
+        Number.isFinite(saved.time) &&
+        saved.time > 0 &&
+        Number.isFinite(audio.duration)
+      ) {
+        audio.currentTime = Math.min(
+          saved.time,
+          Math.max(0, audio.duration - 0.5)
+        );
+      }
+    } catch (error) {
+      console.warn("No se pudo recuperar el progreso:", error);
+    }
+  }, { once: true });
+
+  window.addEventListener("pagehide", saveState);
+
+  updatePlayer();
+})();
+</script>
+
 </body>
 </html>
