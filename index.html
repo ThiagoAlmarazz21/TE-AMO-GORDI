@@ -41,6 +41,8 @@
       overflow-x: hidden;
     }
 
+    /* CORAZONES FLOTANTES PERMANENTES */
+
     #hearts {
       position: fixed;
       inset: 0;
@@ -52,29 +54,23 @@
 
     .heart {
       position: absolute;
-      bottom: -45px;
       display: block;
       line-height: 1;
       user-select: none;
       pointer-events: none;
-      opacity: 0;
-      animation: floatUp linear forwards;
+      will-change: transform;
+      animation: heartDrift ease-in-out infinite alternate;
     }
 
-    @keyframes floatUp {
+    @keyframes heartDrift {
       0% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-        opacity: 0;
+        transform: translate3d(-12px, -15px, 0) rotate(-15deg);
       }
-      12% {
-        opacity: 0.35;
-      }
-      85% {
-        opacity: 0.25;
+      50% {
+        transform: translate3d(14px, 12px, 0) rotate(12deg);
       }
       100% {
-        transform: translate3d(12px, -110vh, 0) rotate(25deg);
-        opacity: 0;
+        transform: translate3d(-5px, 25px, 0) rotate(-8deg);
       }
     }
 
@@ -82,20 +78,41 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 60px 24px 45px;
       text-align: center;
     }
 
+    /* ENCABEZADO */
+
     .intro {
       margin-bottom: 35px;
+      animation: introAppear 1s ease both;
+    }
+
+    @keyframes introAppear {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .little-heart {
       color: var(--pink);
-      font-size: 26px;
+      font-size: 30px;
       margin-bottom: 10px;
+      animation: heartBeat 2s ease-in-out infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      10%, 25% { transform: scale(1.14); }
+      18% { transform: scale(1); }
     }
 
     h1 {
@@ -136,37 +153,344 @@
       margin: 0 0 14px;
     }
 
+    /* FOTOS ANIMADAS */
+
     .photos {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      align-items: stretch;
-      margin: 35px auto;
+      gap: 24px;
+      align-items: center;
+      margin: 50px auto 65px;
+      perspective: 1000px;
     }
 
     .photo-card {
+      --tilt: 0deg;
+      --float-time: 5s;
+
+      position: relative;
+      min-width: 0;
       overflow: hidden;
-      border-radius: 16px;
+      border-radius: 5px;
       background: var(--white);
-      padding: 7px;
-      box-shadow: var(--shadow);
-      transform: translateZ(0);
+      padding: 9px 9px 0;
+      box-shadow: 0 10px 25px rgba(116, 64, 79, 0.12);
+      transform: rotate(var(--tilt));
+      transform-origin: center center;
+      animation: photoFloat var(--float-time) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      transition:
+        transform 0.45s cubic-bezier(.2, .8, .2, 1),
+        box-shadow 0.45s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .photo-card:nth-child(1) {
+      --tilt: -3deg;
+      --float-time: 5.2s;
+      --delay: -1s;
+    }
+
+    .photo-card:nth-child(2) {
+      --tilt: 2deg;
+      --float-time: 6s;
+      --delay: -3s;
+    }
+
+    .photo-card:nth-child(3) {
+      --tilt: -2deg;
+      --float-time: 5.5s;
+      --delay: -2s;
+    }
+
+    @keyframes photoFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(var(--tilt));
+      }
+      50% {
+        transform: translateY(-10px) rotate(calc(var(--tilt) + 1.2deg));
+      }
     }
 
     .photo-card img {
       display: block;
       width: 100%;
-      height: 280px;
+      height: 290px;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: 2px;
+      transition: transform 0.65s cubic-bezier(.2, .8, .2, 1);
     }
 
     .caption {
-      margin: 10px 4px 5px;
+      margin: 0;
+      padding: 13px 4px 15px;
       font-size: 11px;
       color: var(--muted);
       font-weight: 400;
     }
+
+    @media (hover: hover) and (pointer: fine) {
+      .photo-card:hover {
+        z-index: 3;
+        transform: translateY(-12px) rotate(0deg) scale(1.055);
+        box-shadow: 0 24px 45px rgba(116, 64, 79, 0.2);
+      }
+
+      .photo-card:hover img {
+        transform: scale(1.035);
+      }
+
+      .photo-card:hover .caption {
+        color: var(--pink-dark);
+      }
+    }
+
+    .photo-card.is-active {
+      z-index: 4;
+      transform: scale(1.035) rotate(0deg);
+      box-shadow: 0 20px 40px rgba(116, 64, 79, 0.22);
+    }
+
+    .photo-card.is-active img {
+      transform: scale(1.025);
+    }
+
+    /* APARICIÓN AL DESPLAZARSE */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SOBRE DE AMOR INTERACTIVO */
+
+    .love-letter {
+      margin: 60px auto 45px;
+      text-align: center;
+      perspective: 1100px;
+    }
+
+    .letter-intro {
+      color: var(--pink-dark);
+      font-size: 17px;
+      margin-bottom: 15px;
+      letter-spacing: 0.4px;
+    }
+
+    .envelope-scene {
+      position: relative;
+      width: min(100%, 380px);
+      height: 255px;
+      margin: 0 auto;
+      isolation: isolate;
+    }
+
+    .envelope-trigger {
+      position: absolute;
+      inset: auto 0 0;
+      width: 100%;
+      height: 210px;
+      padding: 0;
+      border: 0;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      perspective: 900px;
+      -webkit-tap-highlight-color: transparent;
+      animation: envelopeFloat 3.5s ease-in-out infinite;
+    }
+
+    @keyframes envelopeFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(0.5deg); }
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+      background: #e8cbb7;
+      border: 1px solid #d8b39e;
+      border-radius: 5px;
+      box-shadow: 0 15px 30px rgba(116, 64, 79, 0.15);
+    }
+
+    .envelope-front {
+      position: absolute;
+      inset: 0;
+      background: #f1d8c8;
+      clip-path: polygon(0 0, 50% 62%, 100% 0, 100% 100%, 0 100%);
+      border-radius: 4px;
+      z-index: 4;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 100%;
+      background: #dfbca8;
+      clip-path: polygon(0 0, 100% 0, 50% 57%);
+      transform-origin: top center;
+      transition:
+        transform 0.8s ease,
+        opacity 0.5s ease;
+      z-index: 5;
+    }
+
+    .envelope-seal {
+      position: absolute;
+      top: 83px;
+      left: 50%;
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: #c65f78;
+      color: #fff8e8;
+      font-size: 22px;
+      box-shadow: 0 3px 8px rgba(100, 40, 55, 0.18);
+      z-index: 6;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .envelope-name {
+      position: absolute;
+      bottom: 22px;
+      left: 0;
+      width: 100%;
+      color: #895b56;
+      font-family: Georgia, serif;
+      font-size: 19px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .envelope-trigger:focus-visible {
+      outline: 3px solid var(--pink-dark);
+      outline-offset: 6px;
+      border-radius: 5px;
+    }
+
+    /* PAPEL DENTRO DEL SOBRE */
+
+    .love-note {
+      position: absolute;
+      z-index: 3;
+      left: 5%;
+      bottom: 35px;
+      width: 90%;
+      max-height: 440px;
+      overflow-y: auto;
+      padding: 25px 22px;
+      text-align: left;
+      color: #55433b;
+      background-color: #fff8e8;
+      background-image: repeating-linear-gradient(
+        transparent,
+        transparent 31px,
+        rgba(180, 130, 110, 0.15) 32px
+      );
+      border: 1px solid #e4d2b5;
+      box-shadow: 0 5px 18px rgba(70, 40, 30, 0.13);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(30px) scale(0.92);
+      transform-origin: bottom center;
+      transition:
+        transform 0.9s cubic-bezier(.2, .8, .2, 1),
+        opacity 0.5s ease,
+        visibility 0s linear 0.9s;
+    }
+
+    .note-inner {
+      font-family: Georgia, serif;
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    .note-heart {
+      color: #c65f78;
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .note-inner h2 {
+      color: #9c465c;
+      font-size: 24px;
+      font-weight: normal;
+      text-align: center;
+      margin: 0 0 20px;
+    }
+
+    .note-content p {
+      margin: 0 0 13px;
+    }
+
+    .note-final {
+      color: #a44760;
+      font-weight: bold;
+    }
+
+    .note-signature {
+      text-align: right;
+      font-family: cursive;
+      margin-top: 20px;
+      color: #79545a;
+    }
+
+    .note-signature span {
+      display: block;
+      color: #a44760;
+      font-size: 21px;
+    }
+
+    /* SOBRE ABIERTO */
+
+    .love-letter.open .envelope-flap {
+      transform: rotateX(180deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .love-letter.open .envelope-seal {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.5);
+    }
+
+    .love-letter.open .love-note {
+      z-index: 7;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-100px) scale(1);
+      transition-delay: 0s;
+    }
+
+    .love-letter.open .envelope-trigger {
+      animation-play-state: paused;
+    }
+
+    .envelope-hint {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      transition: opacity 0.3s ease;
+    }
+
+    .love-letter.open .envelope-hint {
+      opacity: 0.7;
+    }
+
+    /* BOTÓN MOMENTOS RANDOMS */
 
     .random-button-container {
       margin: 45px auto 20px;
@@ -176,7 +500,6 @@
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
       gap: 10px;
       max-width: 100%;
       min-height: 50px;
@@ -188,85 +511,30 @@
       font-size: 14px;
       font-weight: 500;
       box-shadow: 0 7px 18px rgba(217, 107, 137, 0.22);
-      transition: background 0.2s ease, transform 0.2s ease;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    .random-button span {
+      transition: transform 0.3s ease;
     }
 
     .random-button:hover {
       background: var(--pink-dark);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(217, 107, 137, 0.3);
+    }
+
+    .random-button:hover span:first-child {
+      transform: scale(1.3);
     }
 
     .random-button:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
-
-    
-.letter {
-  max-width: 580px;
-  margin: 45px auto;
-  padding: 35px 30px;
-  background: #fff8e8;
-  background-image: repeating-linear-gradient(
-    transparent,
-    transparent 31px,
-    rgba(180, 130, 110, 0.15) 32px
-  );
-  border: 1px solid #e4d2b5;
-  box-shadow: 2px 5px 15px rgba(70, 40, 30, 0.18);
-  border-radius: 2px;
-  position: relative;
-  transform: rotate(-0.5deg);
-}
-
-.letter::before {
-  content: "♡";
-  display: block;
-  text-align: center;
-  font-size: 27px;
-  color: #c65f78;
-  margin-bottom: 12px;
-}
-
-.letter h2 {
-  font-family: Georgia, serif;
-  color: #9c465c;
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.letter-content {
-  font-family: Georgia, serif;
-  color: #55433b;
-  font-size: 15px;
-  line-height: 2;
-}
-
-.letter-final {
-  color: #a44760;
-  font-weight: bold;
-}
-
-.letter-signature {
-  font-family: cursive;
-  text-align: right;
-  margin-top: 25px;
-  color: #79545a;
-}
-
-.letter-signature span {
-  display: block;
-  font-size: 21px;
-  color: #a44760;
-}
-
-@media (max-width: 600px) {
-  .letter {
-    margin: 30px 12px;
-    padding: 28px 20px;
-  }
-}
-
 
     .button-subtitle {
       margin: 12px 0 0;
@@ -286,9 +554,23 @@
       max-width: 100%;
     }
 
+    /* TABLETS */
+
+    @media (min-width: 601px) and (max-width: 850px) {
+      .photos {
+        gap: 16px;
+      }
+
+      .photo-card img {
+        height: 240px;
+      }
+    }
+
+    /* CELULARES */
+
     @media (max-width: 600px) {
       main {
-        padding: 38px 16px 30px;
+        padding: 38px 18px 30px;
       }
 
       .intro {
@@ -305,31 +587,70 @@
 
       .message {
         font-size: 14px;
-        line-height: 1.8;
+        line-height: 1.85;
         margin-bottom: 25px;
       }
 
       .photos {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        max-width: 420px;
-        margin: 25px auto;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 30px;
+        width: 100%;
+        max-width: 360px;
+        margin: 35px auto 50px;
+        perspective: none;
       }
 
       .photo-card {
-        padding: 6px;
-        border-radius: 14px;
+        width: 100%;
+        padding: 8px 8px 0;
+        border-radius: 4px;
       }
 
+      .photo-card:nth-child(1) { --tilt: -2deg; }
+      .photo-card:nth-child(2) { --tilt: 2deg; }
+      .photo-card:nth-child(3) { --tilt: -1deg; }
+
       .photo-card img {
+        width: 100%;
         height: auto;
-        max-height: 440px;
         aspect-ratio: 4 / 5;
+        max-height: 440px;
         object-fit: cover;
       }
 
       .caption {
+        padding: 13px 4px 15px;
         font-size: 12px;
+      }
+
+      .love-letter {
+        margin: 45px auto;
+      }
+
+      .letter-intro {
+        font-size: 16px;
+      }
+
+      .envelope-scene {
+        width: min(100%, 340px);
+        height: 245px;
+      }
+
+      .envelope-trigger {
+        height: 190px;
+      }
+
+      .love-note {
+        max-height: 60vh;
+        padding: 22px 17px;
+      }
+
+      .note-inner {
+        font-size: 14px;
+      }
+
+      .love-letter.open .love-note {
+        transform: translateY(-90px) scale(1);
       }
 
       .random-button-container {
@@ -347,20 +668,35 @@
       }
     }
 
+    /* ACCESIBILIDAD */
+
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
       }
 
       .heart {
-        display: none;
         animation: none;
       }
 
-      .random-button {
+      .intro,
+      .little-heart,
+      .photo-card,
+      .envelope-trigger {
+        animation: none;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
         transition: none;
       }
 
+      .love-note,
+      .envelope-flap,
+      .envelope-seal {
+        transition-duration: 0.01ms;
+      }
     }
   </style>
 </head>
@@ -371,13 +707,13 @@
   <main>
     <header class="intro">
       <div class="little-heart" aria-hidden="true">♡</div>
-        <p class="message">PARA MI PERSONA FAVORITA</H1>
+      <p class="message">PARA MI PERSONA FAVORITA</p>
       <h1>TE AMO</h1>
       <p class="name">Luna Bonavita</p>
       <hr class="divider">
     </header>
 
-    <section class="message">
+    <section class="message reveal">
       <p>
         Hice esta paginita para vos, para guardar un pedacito de
         nosotros en un lugar especial ❤️
@@ -391,53 +727,79 @@
       </p>
     </section>
 
-
     <section class="photos" aria-label="Nuestros recuerdos">
-      <article class="photo-card">
+      <article class="photo-card reveal">
         <img src="fotos/foto 1.jpeg" alt="Un recuerdo nuestro" loading="lazy" decoding="async">
         <p class="caption">Un pedacito de nosotros ♡</p>
       </article>
 
-      <article class="photo-card">
+      <article class="photo-card reveal">
         <img src="fotos/foto 2.jpeg" alt="Un momento juntos" loading="lazy" decoding="async">
         <p class="caption">Mi lugar favorito</p>
       </article>
 
-      <article class="photo-card">
+      <article class="photo-card reveal">
         <img src="fotos/foto 3.jpeg" alt="Otro recuerdo juntos" loading="lazy" decoding="async">
         <p class="caption">❤️</p>
       </article>
     </section>
 
-    
-    
-<section class="letter">
-  <h2>Holi ♡</h2>
+    <!-- SOBRE DE AMOR -->
 
-  <div class="letter-content">
-    <p>Mi amor,</p>
+    <section class="love-letter reveal" id="loveLetter">
+      <p class="letter-intro">Tengo algo para vos...</p>
 
-    <p>
-      Quiero seguir compartiendo mis días con vos,
-      haciendo recuerdos y eligiéndote una y mil veces.
-      No importa lo que pase, me hace feliz tenerte en mi vida.
-    </p>
+      <div class="envelope-scene">
 
-    <p>Se que no soy el mejor, pero lo intento :P</p>
+        <div class="love-note" id="loveNote">
+          <div class="note-inner">
+            <div class="note-heart">♡</div>
+            <h2>Para mi amor</h2>
 
-    <p class="letter-final">
-      Te amo amor ❤️
-    </p>
-  </div>
+            <div class="note-content">
+              <p>Mi amor,</p>
 
-  <div class="letter-signature">
-    Con amor,
-    <span>Tu amor ♡</span>
-  </div>
-</section>
+              <p>
+                Quiero seguir compartiendo mis días con vos,
+                haciendo recuerdos y eligiéndote una y mil veces.
+                No importa lo que pase, me hace feliz tenerte en mi vida.
+              </p>
 
+              <p>Se que no soy el mejor, pero lo intento :P</p>
 
-        <section class="random-button-container">
+              <p class="note-final">Te amo amor ❤️</p>
+            </div>
+
+            <div class="note-signature">
+              Con amor,
+              <span>Tu amor ♡</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="envelope-trigger"
+          id="envelopeTrigger"
+          type="button"
+          aria-label="Abrir carta de amor"
+          aria-expanded="false"
+          aria-controls="loveNote"
+        >
+          <span class="envelope-back"></span>
+          <span class="envelope-flap"></span>
+          <span class="envelope-front"></span>
+          <span class="envelope-seal">♥</span>
+          <span class="envelope-name">Para Luna ♡</span>
+        </button>
+
+      </div>
+
+      <p class="envelope-hint" id="envelopeHint">
+        Tocá el sobre para abrir tu cartita ♡
+      </p>
+    </section>
+
+    <section class="random-button-container reveal">
       <a href="randoms.html" class="random-button">
         <span aria-hidden="true">♡</span>
         Momentos randoms
@@ -446,62 +808,387 @@
       <p class="button-subtitle">No te enojes 😂❤</p>
     </section>
 
-
-    <footer>
+    <footer class="reveal">
       Hecho con amor, solamente para vos. ♡
     </footer>
   </main>
 
   <script>
     (() => {
-      const container = document.getElementById("hearts");
       const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
+      // APARICIÓN SUAVE AL BAJAR
+
+      const revealItems = document.querySelectorAll(".reveal");
+
+      if (
+        reduceMotion ||
+        !("IntersectionObserver" in window)
+      ) {
+        revealItems.forEach(item => item.classList.add("visible"));
+      } else {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              obs.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.12,
+          rootMargin: "0px 0px -35px 0px"
+        });
+
+        revealItems.forEach(item => observer.observe(item));
+      }
+
+      // FOTOS INTERACTIVAS
+
+      const cards = document.querySelectorAll(".photo-card");
+
+      cards.forEach(card => {
+        card.addEventListener("click", () => {
+          const wasActive = card.classList.contains("is-active");
+
+          cards.forEach(other => {
+            other.classList.remove("is-active");
+          });
+
+          if (!wasActive) {
+            card.classList.add("is-active");
+          }
+        });
+      });
+
+      // ABRIR Y CERRAR LA CARTA
+
+      const loveLetter = document.getElementById("loveLetter");
+      const envelopeTrigger = document.getElementById("envelopeTrigger");
+      const envelopeHint = document.getElementById("envelopeHint");
+
+      if (loveLetter && envelopeTrigger) {
+        envelopeTrigger.addEventListener("click", () => {
+          const isOpen = loveLetter.classList.toggle("open");
+
+          envelopeTrigger.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+          );
+
+          envelopeTrigger.setAttribute(
+            "aria-label",
+            isOpen ? "Cerrar carta de amor" : "Abrir carta de amor"
+          );
+
+          if (envelopeHint) {
+            envelopeHint.textContent = isOpen
+              ? "Una cartita hecha especialmente para vos ♡"
+              : "Tocá el sobre para abrir tu cartita ♡";
+          }
+        });
+      }
+
+      // CORAZONES FLOTANDO PERMANENTEMENTE
+
+      const container = document.getElementById("hearts");
+
       if (!container || reduceMotion) return;
 
-      const isMobile = window.matchMedia("(max-width: 600px)").matches;
+      const isMobile = window.matchMedia(
+        "(max-width: 600px)"
+      ).matches;
+
       const symbols = ["♡", "♥", "ღ"];
-      const colors = ["#d96b89", "#e9a0b3", "#c94f70", "#edbdc9"];
-      const maxHearts = isMobile ? 9 : 18;
-      const interval = isMobile ? 1500 : 900;
-      let activeHearts = 0;
+      const colors = [
+        "#d96b89",
+        "#e9a0b3",
+        "#c94f70",
+        "#edbdc9"
+      ];
 
-      function createHeart() {
-        if (activeHearts >= maxHearts) return;
+      const heartCount = isMobile ? 18 : 32;
 
+      for (let i = 0; i < heartCount; i++) {
         const heart = document.createElement("span");
+
         heart.className = "heart";
         heart.textContent =
           symbols[Math.floor(Math.random() * symbols.length)];
 
         heart.style.left = Math.random() * 96 + "%";
+        heart.style.top = Math.random() * 96 + "%";
+
         heart.style.fontSize =
-          (isMobile ? 12 + Math.random() * 8 : 14 + Math.random() * 14) + "px";
+          (
+            isMobile
+              ? 12 + Math.random() * 10
+              : 14 + Math.random() * 16
+          ) + "px";
+
         heart.style.color =
           colors[Math.floor(Math.random() * colors.length)];
 
-        const duration = 14 + Math.random() * 8;
-        heart.style.animationDuration = duration + "s";
+        heart.style.opacity = 0.15 + Math.random() * 0.3;
 
-        activeHearts++;
+        heart.style.animationDuration =
+          (3 + Math.random() * 5) + "s";
+
+        heart.style.animationDelay =
+          (-Math.random() * 8) + "s";
+
         container.appendChild(heart);
-
-        heart.addEventListener("animationend", () => {
-          heart.remove();
-          activeHearts = Math.max(0, activeHearts - 1);
-        }, { once: true });
       }
-
-      const initialCount = isMobile ? 3 : 6;
-
-      for (let i = 0; i < initialCount; i++) {
-        setTimeout(createHeart, i * (isMobile ? 1300 : 800));
-      }
-
-      window.setInterval(createHeart, interval);
     })();
   </script>
+  
+<!-- REPRODUCTOR MUSICAL -->
+<div class="music-player" id="musicPlayer">
+  <audio id="siteAudio" preload="metadata">
+    <source src="/tema/Trueno - SOLO POR VOS (Video Oficial).mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-play" id="musicPlay" aria-label="Reproducir canción" type="button">
+    ▶
+  </button>
+
+  <div class="music-info">
+    <span class="music-title">Nuestra canción ♡</span>
+    <span class="music-status" id="musicStatus">Una canción para vos</span>
+  </div>
+
+  <button class="music-volume-icon" id="volumeToggle" type="button" aria-label="Silenciar o activar sonido">
+    ♫
+  </button>
+
+  <input
+    class="music-volume"
+    id="musicVolume"
+    type="range"
+    min="0"
+    max="1"
+    step="0.01"
+    value="0.6"
+    aria-label="Volumen"
+  >
+</div>
+
+<style>
+  .music-player {
+    position: fixed;
+    z-index: 50;
+    left: 18px;
+    bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: min(330px, calc(100vw - 28px));
+    padding: 12px 14px;
+    border: 1px solid #e8cbd2;
+    border-radius: 18px;
+    background: rgba(255, 250, 247, .96);
+    box-shadow: 0 8px 30px rgba(91, 49, 62, .15);
+    backdrop-filter: blur(12px);
+    color: #bd4e70;
+  }
+
+  .music-player button {
+    flex-shrink: 0;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .music-play {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 50%;
+    background: #d96b89;
+    color: white;
+    font-size: 16px;
+    transition: transform .2s, background .2s;
+  }
+
+  .music-play:hover {
+    transform: scale(1.07);
+    background: #bd4e70;
+  }
+
+  .music-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    gap: 3px;
+  }
+
+  .music-title {
+    overflow: hidden;
+    color: #754654;
+    font-size: 12px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .music-status {
+    color: #a98b93;
+    font-size: 10px;
+  }
+
+  .music-volume-icon {
+    padding: 5px;
+    border: 0;
+    background: transparent;
+    color: #bd4e70;
+    font-size: 18px;
+  }
+
+  .music-volume {
+    width: 65px;
+    accent-color: #d96b89;
+    cursor: pointer;
+  }
+
+  @media (max-width: 400px) {
+    .music-player {
+      left: 10px;
+      bottom: 10px;
+      gap: 8px;
+      padding: 10px;
+    }
+
+    .music-volume { width: 48px; }
+  }
+</style>
+
+<script>
+(() => {
+  const audio = document.getElementById("siteAudio");
+  const playButton = document.getElementById("musicPlay");
+  const status = document.getElementById("musicStatus");
+  const volume = document.getElementById("musicVolume");
+  const volumeToggle = document.getElementById("volumeToggle");
+
+  if (!audio || !playButton) return;
+
+  const KEY = "lunaMusicPlayer";
+  let saved = {};
+
+  try {
+    saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+  } catch (error) {
+    saved = {};
+  }
+
+  audio.volume = typeof saved.volume === "number" ? saved.volume : 0.6;
+  volume.value = audio.volume;
+
+  function saveState() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({
+        time: audio.currentTime || 0,
+        volume: audio.volume,
+        playing: !audio.paused && !audio.ended
+      }));
+    } catch (error) {}
+  }
+
+  function updatePlayer() {
+    playButton.textContent = audio.paused ? "▶" : "Ⅱ";
+    playButton.setAttribute(
+      "aria-label",
+      audio.paused ? "Reproducir canción" : "Pausar canción"
+    );
+
+    if (audio.error) {
+      status.textContent = "No se pudo cargar la canción";
+    } else {
+      status.textContent = audio.paused ? "Pausada ♡" : "Sonando para vos ♡";
+    }
+
+    saveState();
+  }
+
+  playButton.addEventListener("click", async () => {
+    if (audio.paused) {
+      try {
+        await audio.play();
+      } catch (error) {
+        status.textContent = "Tocá de nuevo para reproducir";
+      }
+    } else {
+      audio.pause();
+    }
+
+    updatePlayer();
+  });
+
+  volume.addEventListener("input", () => {
+    audio.volume = Number(volume.value);
+    if (audio.volume > 0) audio.muted = false;
+    volumeToggle.textContent = audio.muted || audio.volume === 0 ? "♪" : "♫";
+    saveState();
+  });
+
+  volumeToggle.addEventListener("click", () => {
+    audio.muted = !audio.muted;
+    volumeToggle.textContent = audio.muted ? "♪" : "♫";
+
+    if (!audio.muted && audio.volume === 0) {
+      audio.volume = 0.6;
+      volume.value = 0.6;
+    }
+
+    saveState();
+  });
+
+  audio.addEventListener("play", updatePlayer);
+  audio.addEventListener("pause", updatePlayer);
+  audio.addEventListener("ended", () => {
+    status.textContent = "La canción terminó ♡";
+    saveState();
+  });
+
+  audio.addEventListener("error", () => {
+    status.textContent = "Revisá el archivo musica.mp3";
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    if (!audio.paused) saveState();
+  });
+
+  // Recupera el punto de reproducción al cargar la otra página.
+  audio.addEventListener("loadedmetadata", async () => {
+    try {
+      if (Number.isFinite(saved.time) && saved.time > 0) {
+        audio.currentTime = Math.min(
+          saved.time,
+          Math.max(0, audio.duration - 0.5)
+        );
+      }
+
+      if (saved.playing) {
+        try {
+          await audio.play();
+        } catch (error) {
+          status.textContent = "Tocá ▶ para continuar la canción";
+        }
+      }
+    } catch (error) {}
+
+    updatePlayer();
+  }, { once: true });
+
+  // Guarda el estado justo antes de abandonar la página.
+  window.addEventListener("pagehide", saveState);
+
+  updatePlayer();
+})();
+</script>
+
 </body>
 </html>

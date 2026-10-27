@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f8f1ed">
-  <meta name="description" content="Nuestros momentos más randoms, Luna.">
-  <title>Nuestros randoms ❤️</title>
+  <title>Vos y yo ♡</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,31 +13,38 @@
 
   <style>
     :root {
-      --background: #f8f1ed;
+      --bg: #f8f1ed;
+      --paper: #fffaf6;
       --text: #382b2e;
       --muted: #8c7379;
       --pink: #d96b89;
-      --pink-dark: #bd4e70;
-      --white: #fffaf8;
-      --shadow: 0 12px 35px rgba(116, 64, 79, 0.10);
+      --dark-pink: #bd4e70;
+      --line: #ead4d8;
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
+      font-family: "Poppins", sans-serif !important;
     }
 
-    html {
-      scroll-behavior: smooth;
-      -webkit-text-size-adjust: 100%;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       min-height: 100vh;
-      background: var(--background);
-      color: var(--text);
-      font-family: "Poppins", sans-serif;
       overflow-x: hidden;
+      background:
+        radial-gradient(ellipse at 5% 10%, #f5cdd84a, transparent 35%),
+        radial-gradient(ellipse at 95% 50%, #f0d7cc45, transparent 35%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    button { cursor: pointer; }
+
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--dark-pink);
+      outline-offset: 4px;
     }
 
     #hearts {
@@ -47,239 +53,706 @@
       overflow: hidden;
       pointer-events: none;
       z-index: 0;
-      contain: strict;
     }
 
     .heart {
       position: absolute;
-      bottom: -45px;
-      display: block;
+      bottom: -35px;
       line-height: 1;
-      user-select: none;
-      pointer-events: none;
       opacity: 0;
       animation: floatUp linear forwards;
     }
 
     @keyframes floatUp {
-      0% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-        opacity: 0;
-      }
-      12% {
-        opacity: 0.35;
-      }
-      85% {
-        opacity: 0.25;
-      }
-      100% {
-        transform: translate3d(12px, -110vh, 0) rotate(25deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) rotate(0); opacity: 0; }
+      12% { opacity: .35; }
+      85% { opacity: .2; }
+      100% { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
     }
 
     main {
       position: relative;
       z-index: 1;
-      width: 100%;
       max-width: 1000px;
-      margin: 0 auto;
-      padding: 45px 24px 35px;
+      margin: auto;
+      padding: 28px 24px 45px;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 35px;
+      margin-bottom: 38px;
+      animation: appear .8s ease both;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .back-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      padding: 10px 16px;
-      margin-bottom: 25px;
+      display: inline-block;
+      margin-bottom: 35px;
+      padding: 10px 17px;
       border: 1px solid #e7c5cd;
       border-radius: 30px;
-      color: var(--pink-dark);
+      color: var(--dark-pink);
+      background: #fffaf8c9;
       text-decoration: none;
-      font-size: 13px;
-      transition: background 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
+      font-size: 12px;
+      transition: transform .25s, background .25s;
     }
 
     .back-link:hover {
-      background: #f3e3e5;
+      transform: translateX(-3px);
+      background: white;
     }
 
-    .eyebrow {
-      margin: 0 0 8px;
+    .eyebrow, .surprise-eyebrow {
       color: var(--pink);
-      font-size: 12px;
+      font-size: 10px;
       letter-spacing: 3px;
       text-transform: uppercase;
     }
 
     h1 {
       margin: 0;
-      color: var(--pink-dark);
-      font-size: clamp(32px, 6vw, 54px);
-      font-weight: 700;
+      color: var(--dark-pink);
+      font-size: clamp(40px, 7vw, 66px);
+      font-weight: 600;
       line-height: 1.2;
     }
 
     .subtitle {
-      margin: 12px 0 0;
+      max-width: 460px;
+      margin: 15px auto 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.9;
     }
 
     .divider {
-      width: 50px;
-      height: 2px;
-      margin: 23px auto 0;
-      background: #e6b3c0;
+      width: 48px;
       border: 0;
+      height: 2px;
+      margin: 24px auto;
+      background: #e6b3c0;
+    }
+
+    .counter {
+      display: flex;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto 32px;
+      padding: 12px 18px;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e7c5cd;
+      border-radius: 50px;
+      background: #fffaf8d9;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .counter-heart {
+      color: var(--pink);
+      font-size: 20px;
+      animation: heartbeat 2s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.18); }
+      30% { transform: scale(1); }
+    }
+
+    #foundCount { color: var(--dark-pink); font-weight: 600; }
+
+    .section-heading {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 500;
+    }
+
+    .section-heading p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
     }
 
     .collage {
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 18px;
+      gap: 22px;
       align-items: start;
     }
 
     .memory {
-      min-width: 0;
-      overflow: hidden;
       grid-column: span 3;
-      background: var(--white);
-      padding: 8px;
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      transform: translateZ(0);
+      min-width: 0;
+      margin: 0;
+      padding: 9px 9px 0;
+      overflow: hidden;
+      border: 1px solid #ead4d8b3;
+      border-radius: 5px;
+      background: var(--paper);
+      box-shadow: 0 12px 35px #74404f19;
+      transform: rotate(var(--tilt, 0deg));
+      animation: appear .7s ease both;
+      animation-delay: var(--delay, 0s);
+      transition: transform .3s, box-shadow .3s;
     }
 
-    .memory:nth-child(5) {
-      grid-column: 2 / span 4;
-    }
+    .memory:nth-child(1) { --tilt: -1.5deg; --delay: .05s; }
+    .memory:nth-child(2) { --tilt: 1.4deg; --delay: .1s; }
+    .memory:nth-child(3) { --tilt: 1deg; --delay: .15s; }
+    .memory:nth-child(4) { --tilt: -1deg; --delay: .2s; }
+    .memory:nth-child(5) { grid-column: 2 / span 4; --tilt: .5deg; }
+    .memory:nth-child(6) { --tilt: -1deg; }
+    .memory:nth-child(7) { --tilt: 1deg; }
 
-    .memory img,
-    .memory video {
+    .memory-photo {
+      position: relative;
       display: block;
       width: 100%;
-      height: auto;
-      max-height: 520px;
-      object-fit: cover;
-      border-radius: 10px;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
       background: #f0e4e1;
     }
 
-    .memory img {
+    .memory-photo img {
+      display: block;
+      width: 100%;
       aspect-ratio: 4 / 5;
+      object-fit: cover;
+      transition: transform .6s;
     }
 
-    .memory video {
-      aspect-ratio: 9 / 16;
+    .tap-hint {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: var(--dark-pink);
+      background: #fffaf8ed;
+      font-size: 18px;
     }
 
-    .memory figcaption {
-      padding: 12px 5px 5px;
+    .memory-photo.found .tap-hint {
+      color: white;
+      background: var(--pink);
+    }
+
+    .memory figcaption, .video-caption {
+      padding: 13px 5px 15px;
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.6;
+      line-height: 1.7;
       text-align: center;
     }
 
-    .end-note {
-      margin: 40px 0 20px;
-      color: var(--pink-dark);
-      font-size: 17px;
-      text-align: center;
+    .memory figcaption span {
+      display: block;
+      margin-top: 4px;
+      color: #c88a9b;
+      font-size: 10px;
+    }
+
+    .memory-video {
+      display: block;
+      width: 100%;
+      max-height: 520px;
+      aspect-ratio: 9 / 16;
+      object-fit: contain;
+      background: #ead9d8;
+    }
+
+    .secret-message {
+      max-height: 0;
+      margin: 0;
+      padding: 0 8px;
+      overflow: hidden;
+      opacity: 0;
+      color: var(--dark-pink);
+      font-size: 12px;
+      font-style: italic;
       line-height: 1.8;
+      text-align: center;
+      transition: max-height .5s, opacity .4s, padding .4s;
     }
 
-    footer {
-      padding: 10px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 300;
+    .secret-message.visible {
+      max-height: 180px;
+      padding: 5px 8px 17px;
+      opacity: 1;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .memory:hover {
+        z-index: 2;
+        transform: translateY(-5px) rotate(0);
+        box-shadow: 0 20px 42px #74404f29;
+      }
+      .memory-photo:hover img { transform: scale(1.045); }
+    }
+
+    /* SORPRESA: FOTO CON REVELADO 3D */
+
+    .surprise-section {
+      position: relative;
+      margin: 75px auto 45px;
+      padding: 45px 15px 40px;
       text-align: center;
+      border-top: 1px solid #d96b8938;
+      border-bottom: 1px solid #d96b8938;
+      isolation: isolate;
+    }
+
+    .surprise-eyebrow { margin: 0 0 10px; }
+
+    .surprise-section h2 {
+      margin: 0;
+      color: var(--dark-pink);
+      font-size: clamp(28px, 5vw, 38px);
+      font-weight: 500;
+    }
+
+    .surprise-intro {
+      max-width: 350px;
+      margin: 14px auto 24px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    .favorite-stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 370px;
+      perspective: 1400px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .favorite-glow {
+      position: absolute;
+      width: min(320px, 85vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, #e7a2b733 0%, #e7a2b71a 42%, transparent 72%);
+      opacity: .65;
+      filter: blur(12px);
+      transition: opacity .8s, transform 1s;
+      pointer-events: none;
+    }
+
+    .favorite-stage::before,
+    .favorite-stage::after {
+      position: absolute;
+      content: "✦";
+      color: #d98ba0;
+      font-size: 17px;
+      opacity: .55;
+      animation: sparkleFloat 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .favorite-stage::before {
+      top: 18%;
+      left: calc(50% - 145px);
+    }
+
+    .favorite-stage::after {
+      right: calc(50% - 145px);
+      bottom: 17%;
+      font-size: 12px;
+      animation-delay: -1.4s;
+    }
+
+    @keyframes sparkleFloat {
+      0%, 100% { transform: translateY(0) scale(.8); opacity: .3; }
+      50% { transform: translateY(-9px) scale(1.2); opacity: .9; }
+    }
+
+    .favorite-card {
+      position: relative;
+      z-index: 2;
+      width: min(270px, 76vw);
+      aspect-ratio: 4 / 5;
+      padding: 0;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      perspective: 1400px;
+      transform: rotate(-3deg);
+      filter: drop-shadow(0 18px 24px #74404f25);
+      transition: transform .6s cubic-bezier(.2,.8,.2,1), filter .6s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .favorite-card:hover {
+      transform: translateY(-5px) rotate(0deg);
+      filter: drop-shadow(0 25px 28px #74404f35);
+    }
+
+    .favorite-card:focus-visible {
+      outline-offset: 8px;
+      border-radius: 5px;
+    }
+
+    .favorite-inner {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      transition: transform 1.1s cubic-bezier(.2,.75,.2,1);
+    }
+
+    .favorite-card.revealed .favorite-inner {
+      transform: rotateY(180deg);
+    }
+
+    .favorite-face {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border: 1px solid #f2dfe0;
+      border-radius: 5px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .favorite-front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background:
+        radial-gradient(circle at 50% 43%, #ffffff 0%, #fffaf7 48%, #f5e4e2 100%);
+    }
+
+    .favorite-front::before {
+      position: absolute;
+      inset: 12px;
+      border: 1px solid #e6c4cc;
+      content: "";
+      pointer-events: none;
+    }
+
+    .favorite-front::after {
+      position: absolute;
+      inset: 19px;
+      border: 1px solid #f0dce0;
+      content: "";
+      pointer-events: none;
+    }
+
+    .favorite-orbit {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 110px;
+      aspect-ratio: 1;
+      border: 1px solid #e6b9c5;
+      border-radius: 50%;
+      box-shadow: 0 0 0 9px #e8c4ce24, 0 0 40px #e8c4ce36;
+      animation: orbitPulse 3s ease-in-out infinite;
+    }
+
+    .favorite-orbit::before,
+    .favorite-orbit::after {
+      position: absolute;
+      inset: 9px;
+      border: 1px solid #eed6dc;
+      border-radius: 50%;
+      content: "";
+    }
+
+    .favorite-orbit::after {
+      inset: -15px;
+      border-style: dashed;
+      opacity: .7;
+      animation: orbitSpin 18s linear infinite;
+    }
+
+    @keyframes orbitPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 9px #e8c4ce24, 0 0 30px #e8c4ce25; }
+      50% { transform: scale(1.04); box-shadow: 0 0 0 13px #e8c4ce20, 0 0 45px #e8c4ce40; }
+    }
+
+    @keyframes orbitSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .favorite-heart {
+      position: relative;
+      z-index: 1;
+      color: var(--pink);
+      font-size: 47px;
+      line-height: 1;
+      text-shadow: 0 4px 16px #d96b8945;
+      animation: heartbeat 2s infinite;
+    }
+
+    .favorite-sparkles {
+      position: absolute;
+      color: #c98599;
+      font-size: 15px;
+    }
+
+    .favorite-sparkles.one { top: 22%; left: 24%; }
+    .favorite-sparkles.two { top: 27%; right: 22%; font-size: 11px; }
+    .favorite-sparkles.three { bottom: 23%; left: 28%; font-size: 10px; }
+    .favorite-sparkles.four { right: 25%; bottom: 20%; }
+
+    .favorite-front-label {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: #9d6c79;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .favorite-back {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background: #fffdf9;
+      transform: rotateY(180deg);
+    }
+
+    .favorite-photo-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #f0e4e1;
+    }
+
+    .favorite-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.13);
+      transition: transform 1.3s cubic-bezier(.2,.75,.2,1), opacity .6s;
+    }
+
+    .favorite-card.revealed .favorite-photo {
+      opacity: 1;
+      transform: scale(1);
+      transition-delay: .28s;
+    }
+
+    .favorite-photo-wrap::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      background: linear-gradient(180deg, #00000008, transparent 25%, transparent 75%, #00000010);
+    }
+
+    .favorite-flash {
+      position: absolute;
+      z-index: 3;
+      top: -35%;
+      left: -90%;
+      width: 55%;
+      height: 170%;
+      background: linear-gradient(100deg, transparent, #ffffffa8, #ffffff18, transparent);
+      transform: rotate(18deg);
+      pointer-events: none;
+    }
+
+    .favorite-card.revealed .favorite-flash {
+      animation: photoFlash 1.2s .35s ease-out both;
+    }
+
+    @keyframes photoFlash {
+      from { left: -90%; }
+      to { left: 150%; }
+    }
+
+    .favorite-hint {
+      position: relative;
+      z-index: 3;
+      margin: 12px 0 0;
+      color: var(--dark-pink);
+      font-size: 11px;
+      letter-spacing: .2px;
+      transition: opacity .4s, transform .4s;
+    }
+
+    .favorite-hint.hidden {
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+    }
+
+    .favorite-open-hint {
+      display: inline-block;
+      margin-top: 7px;
+      color: #b9959e;
+      font-size: 10px;
+      opacity: 0;
+      transition: opacity .5s;
+    }
+
+    .favorite-card.revealed ~ .favorite-open-hint {
+      opacity: 1;
+    }
+
+    .favorite-section.photo-revealed .favorite-glow {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    .favorite-section.photo-revealed .favorite-stage::before,
+    .favorite-section.photo-revealed .favorite-stage::after {
+      animation-duration: 1.4s;
     }
 
     @media (max-width: 600px) {
-      main {
-        padding: 25px 14px 25px;
+      .surprise-section {
+        margin: 50px auto 35px;
+        padding: 35px 5px;
       }
 
-      .header {
-        margin-bottom: 25px;
+      .favorite-stage {
+        min-height: 330px;
+        perspective: 1100px;
       }
 
-      .back-link {
-        margin-bottom: 22px;
+      .favorite-card {
+        width: min(260px, 74vw);
       }
 
-      .eyebrow {
-        letter-spacing: 2px;
-      }
+      .favorite-orbit { width: 96px; }
+      .favorite-heart { font-size: 41px; }
+      .favorite-stage::before { left: calc(50% - 125px); }
+      .favorite-stage::after { right: calc(50% - 125px); }
+    }
 
-      .subtitle {
-        font-size: 13px;
-        padding: 0 8px;
-      }
+    /* VISOR DE FOTOS */
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #26171ee0;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s, visibility .3s;
+    }
+
+    .lightbox.open { opacity: 1; visibility: visible; }
+
+    .lightbox-content {
+      position: relative;
+      display: flex;
+      width: min(100%, 540px);
+      max-height: 90vh;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transform: scale(.94) translateY(10px);
+      transition: transform .35s;
+    }
+
+    .lightbox.open .lightbox-content { transform: scale(1) translateY(0); }
+
+    .lightbox img {
+      display: block;
+      max-width: 100%;
+      max-height: 68vh;
+      object-fit: contain;
+      border: 7px solid var(--paper);
+      border-bottom-width: 24px;
+      border-radius: 3px;
+      box-shadow: 0 15px 55px #0004;
+    }
+
+    .lightbox-caption {
+      color: #fff3f5;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -12px;
+      right: -4px;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid #ffffff4d;
+      border-radius: 50%;
+      color: var(--dark-pink);
+      background: #fffaf8;
+      font-size: 24px;
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 20px 14px 30px; }
+      .back-link { margin-bottom: 28px; }
+      .header { margin-bottom: 30px; }
 
       .collage {
         grid-template-columns: minmax(0, 1fr);
-        gap: 18px;
+        gap: 21px;
       }
 
-      .memory,
-      .memory:nth-child(5) {
+      .memory, .memory:nth-child(5) {
         grid-column: 1;
         width: 100%;
         max-width: 440px;
         justify-self: center;
-        padding: 6px;
-        border-radius: 14px;
+        padding: 7px 7px 0;
+        border-radius: 8px;
       }
 
-      .memory img {
-        aspect-ratio: 4 / 5;
-        max-height: none;
-      }
-
-      .memory video {
-        aspect-ratio: 9 / 16;
-        max-height: 72vh;
-        object-fit: contain;
-      }
-
-      .memory figcaption {
-        font-size: 12px;
-      }
-
-      .end-note {
-        font-size: 15px;
-        margin-top: 30px;
-      }
+      .memory-video { max-height: 72vh; }
+      .revealed-message { padding: 0 10px; }
+      .lightbox { padding: 16px; }
+      .lightbox img { max-height: 65vh; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
+      html { scroll-behavior: auto; }
+
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
       }
 
-      .heart {
-        display: none;
-        animation: none;
-      }
-
-      .back-link {
-        transition: none;
-      }
+      .heart { display: none; }
     }
   </style>
 </head>
@@ -290,71 +763,328 @@
   <main>
     <header class="header">
       <a class="back-link" href="index.html">← Volver a nuestra página</a>
-      <p class="eyebrow">Te amo</p>
-      <h1>Vos y yo ❤ </h1>
+      <p class="eyebrow">Un pedacito de nosotros</p>
+      <h1>Vos y yo ♡</h1>
       <hr class="divider">
     </header>
 
-    <section class="collage" aria-label="Fotos y videos de nuestros momentos">
-      <figure class="memory">
-        <img src="fotos/foto 5.jpeg" alt="Un recuerdo random nuestro" loading="lazy" decoding="async">
-        <figcaption>Cara de orto 👸🏻</figcaption>
-      </figure>
+    <section aria-label="Nuestro álbum de recuerdos">
+      <div class="section-heading">
+        <h3>Tocá las fotos... algunas esconden algo para vos 👀</p>
+      </div>
 
-      <figure class="memory">
-        <img src="fotos/foto 6.jpeg" alt="Otro momento juntos" loading="lazy" decoding="async">
-        <figcaption>Re dun 😂</figcaption>
-      </figure>
+      <div class="collage">
+        <figure class="memory">
+          <button class="memory-photo" type="button"
+            data-photo="fotos/foto 5.jpeg"
+            data-caption="Cara de orto 👸🏻"
+            data-secret="Igual con esa cara de culo me encantas ❤️">
+            <img src="fotos/foto 5.jpeg" alt="Cara de orto" loading="lazy">
+            <span class="tap-hint">♡</span>
+          </button>
+          <figcaption>Cara de orto 👸🏻<span>✦ Tocá para descubrir ✦</span></figcaption>
+          <p class="secret-message"></p>
+        </figure>
 
-      <figure class="memory">
-        <video controls playsinline preload="metadata" poster="fotos/random2.jpeg">
-          <source src="fotos/video 1.mp4" type="video/mp4">
-          Tu navegador no puede reproducir este video.
-        </video>
-      </figure>
+        <figure class="memory">
+          <button class="memory-photo" type="button"
+            data-photo="fotos/foto 6.jpeg"
+            data-caption="Re dun 😂"
+            data-secret="Alta dun">
+            <img src="fotos/foto 6.jpeg" alt="Re dun" loading="lazy">
+            <span class="tap-hint">♡</span>
+          </button>
+          <figcaption>Re dun 😂<span>✦ Tocá para descubrir ✦</span></figcaption>
+          <p class="secret-message"></p>
+        </figure>
 
-      <figure class="memory">
-        <img src="fotos/foto 7.jpeg" alt="Un momento especial" loading="lazy" decoding="async">
-        <figcaption>Ella jura ❤</figcaption>
-      </figure>
+        <figure class="memory">
+          <video class="memory-video" controls playsinline preload="metadata" poster="fotos/random2.jpeg">
+            <source src="fotos/video 1.mp4" type="video/mp4">
+            Tu navegador no puede reproducir este video.
+          </video>
+          <figcaption class="video-caption">Un momentito nuestro ♡</figcaption>
+        </figure>
 
-      <figure class="memory">
-        <img src="fotos/foto 8.jpeg" alt="Un recuerdo más de nosotros" loading="lazy" decoding="async">
-        <figcaption>Re paragua </figcaption>
-      </figure>
+        <figure class="memory">
+          <button class="memory-photo" type="button"
+            data-photo="fotos/foto 7.jpeg"
+            data-caption="Ella jura ❤"
+            data-secret="Ella jura que puede usar mis ojotas 😂❤️">
+            <img src="fotos/foto 7.jpeg" alt="Ella jura" loading="lazy">
+            <span class="tap-hint">♡</span>
+          </button>
+          <figcaption>Ella jura ❤<span>✦ Tocá para descubrir ✦</span></figcaption>
+          <p class="secret-message"></p>
+        </figure>
 
-      <figure class="memory">
-        <video controls playsinline preload="metadata" poster="fotos/random4.jpeg">
-          <source src="fotos/video 2.mp4" type="video/mp4">
-          Tu navegador no puede reproducir este video.
-        </video>
-      </figure>
+        <figure class="memory">
+          <button class="memory-photo" type="button"
+            data-photo="fotos/foto 8.jpeg"
+            data-caption="Re paragua"
+            data-secret="Cuando te hicieron laburar como paragua">
+            <img src="fotos/foto 8.jpeg" alt="Re paragua" loading="lazy">
+            <span class="tap-hint">♡</span>
+          </button>
+          <figcaption>Re paragua<span>✦ Tocá para descubrir ✦</span></figcaption>
+          <p class="secret-message"></p>
+        </figure>
 
-      <figure class="memory">
-        <img src="fotos/foto 9.jpeg" alt="Nuestro último recuerdo de esta página" loading="lazy" decoding="async">
-              <figcaption>No se que es esta foto</figcaption>
-      </figure>
+        <figure class="memory">
+          <video class="memory-video" controls playsinline preload="metadata" poster="fotos/random4.jpeg">
+            <source src="fotos/video 2.mp4" type="video/mp4">
+            Tu navegador no puede reproducir este video.
+          </video>
+          <figcaption class="video-caption">Otro recuerdo para guardar ❤️</figcaption>
+        </figure>
+
+        <figure class="memory">
+          <button class="memory-photo" type="button"
+            data-photo="fotos/foto 9.jpeg"
+            data-caption="No sé qué es esta foto"
+            data-secret="Ni me acuerdo cuándo fue esta foto xd">
+            <img src="fotos/foto 9.jpeg" alt="Un recuerdo random" loading="lazy">
+            <span class="tap-hint">♡</span>
+          </button>
+          <figcaption>No sé qué es esta foto<span>✦ Tocá para descubrir ✦</span></figcaption>
+          <p class="secret-message"></p>
+        </figure>
+      </div>
     </section>
 
-    <footer>
-      Hago lo que puedo, perdon
-    </footer>
+    <!-- SORPRESA: DESCUBRIR FOTO -->
+
+    <section class="surprise-section favorite-section" id="favoritePhoto">
+      <h2>Mi foto favorita</h1>
+      <h2>♡</h2>
+
+      <div class="favorite-stage">
+        <div class="favorite-glow" aria-hidden="true"></div>
+
+        <button class="favorite-card" id="favoriteCard"
+          type="button" aria-label="Descubrir foto" aria-expanded="false">
+          <span class="favorite-inner">
+            <span class="favorite-face favorite-front">
+              <span class="favorite-sparkles one">✦</span>
+              <span class="favorite-sparkles two">✧</span>
+              <span class="favorite-sparkles three">✧</span>
+              <span class="favorite-sparkles four">✦</span>
+
+              <span class="favorite-orbit">
+                <span class="favorite-heart">♡</span>
+              </span>
+
+              <span class="favorite-front-label">¿Cuál será?</span>
+            </span>
+
+            <span class="favorite-face favorite-back">
+              <span class="favorite-photo-wrap">
+                <img class="favorite-photo"
+                  id="favoriteImage"
+                  src="fotos/foto 10.jpeg"
+                  alt="Foto favorita"
+                  loading="lazy">
+                <span class="favorite-flash"></span>
+              </span>
+            </span>
+          </span>
+        </button>
+      </div>
+
+      <p class="favorite-hint" id="favoriteHint">Tocá para descubrir ♡</p>
+      <span class="favorite-open-hint" id="favoriteOpenHint">Tocá la foto para verla más grande</span>
+    </section>
   </main>
+
+  <!-- VISOR PARA AMPLIAR FOTOS -->
+
+  <div class="lightbox" id="lightbox"
+    role="dialog" aria-modal="true" aria-label="Foto ampliada"
+    aria-hidden="true">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose"
+        type="button" aria-label="Cerrar foto">×</button>
+      <img id="lightboxImage" src="" alt="">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
 
   <script>
     (() => {
-      const container = document.getElementById("hearts");
       const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
+      // CONTADOR Y MENSAJES SECRETOS DE LAS FOTOS
+
+      const photoButtons = document.querySelectorAll(".memory-photo");
+      const foundCount = document.getElementById("foundCount");
+      const foundPhotos = new Set();
+
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightboxImage");
+      const lightboxCaption = document.getElementById("lightboxCaption");
+      const lightboxClose = document.getElementById("lightboxClose");
+
+      let lastFocusedElement = null;
+
+      function openLightbox(button) {
+        lastFocusedElement = button;
+        lightboxImage.src = button.dataset.photo;
+        lightboxImage.alt = button.dataset.caption || "";
+        lightboxCaption.textContent =
+          button.dataset.secret || button.dataset.caption || "";
+
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        lightboxClose.focus();
+      }
+
+      function openFavoriteLightbox() {
+        const favoriteImage = document.getElementById("favoriteImage");
+        lastFocusedElement = document.getElementById("favoriteCard");
+        lightboxImage.src = favoriteImage.src;
+        lightboxImage.alt = favoriteImage.alt;
+        lightboxCaption.textContent = "";
+
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        lightboxClose.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        lightboxImage.src = "";
+        lightboxCaption.textContent = "";
+
+        if (lastFocusedElement) lastFocusedElement.focus();
+      }
+
+      photoButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+          const memory = button.closest(".memory");
+          const message = memory.querySelector(".secret-message");
+
+          if (!foundPhotos.has(index)) {
+            foundPhotos.add(index);
+            button.classList.add("found");
+            button.querySelector(".tap-hint").textContent = "♥";
+
+            message.textContent = button.dataset.secret || "Un recuerdo para guardar ❤️";
+            message.classList.add("visible");
+            foundCount.textContent = foundPhotos.size;
+
+            burstHearts(button);
+          }
+
+          openLightbox(button);
+        });
+      });
+
+      lightboxClose.addEventListener("click", closeLightbox);
+
+      lightbox.addEventListener("click", event => {
+        if (event.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && lightbox.classList.contains("open")) {
+          closeLightbox();
+        }
+      });
+
+      // EXPLOSIÓN DE CORAZONES
+
+      function burstHearts(element, amount = 10) {
+        if (reduceMotion) return;
+
+        const rect = element.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const colors = ["#d96b89", "#e9a0b3", "#c94f70", "#edbdc9"];
+        const symbols = ["♡", "♥", "❤"];
+
+        for (let i = 0; i < amount; i++) {
+          const heart = document.createElement("span");
+          heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+          heart.style.position = "fixed";
+          heart.style.left = centerX + "px";
+          heart.style.top = centerY + "px";
+          heart.style.zIndex = "30";
+          heart.style.pointerEvents = "none";
+          heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+          heart.style.fontSize = (12 + Math.random() * 12) + "px";
+
+          document.body.appendChild(heart);
+
+          const angle = Math.random() * Math.PI * 2;
+          const distance = 35 + Math.random() * 90;
+          const dx = Math.cos(angle) * distance;
+          const dy = Math.sin(angle) * distance - 25;
+
+          const animation = heart.animate([
+            {
+              transform: "translate(-50%, -50%) scale(.4)",
+              opacity: 1
+            },
+            {
+              transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1.2)`,
+              opacity: 0
+            }
+          ], {
+            duration: 650 + Math.random() * 500,
+            easing: "cubic-bezier(.2,.8,.2,1)"
+          });
+
+          animation.onfinish = () => heart.remove();
+        }
+      }
+
+      // REVELADO DE LA FOTO FAVORITA
+
+      const favoriteCard = document.getElementById("favoriteCard");
+      const favoriteImage = document.getElementById("favoriteImage");
+      const favoriteHint = document.getElementById("favoriteHint");
+      const favoriteSection = document.getElementById("favoritePhoto");
+      let favoriteRevealed = false;
+
+      favoriteCard.addEventListener("click", () => {
+        if (!favoriteRevealed) {
+          favoriteRevealed = true;
+          favoriteCard.classList.add("revealed");
+          favoriteSection.classList.add("photo-revealed");
+          favoriteCard.setAttribute("aria-expanded", "true");
+          favoriteCard.setAttribute("aria-label", "Ampliar foto favorita");
+          favoriteHint.classList.add("hidden");
+
+          burstHearts(favoriteCard, 18);
+
+          if (!favoriteImage.complete || favoriteImage.naturalWidth === 0) {
+            favoriteImage.addEventListener("error", () => {
+              console.error(
+                "No se encontró fotos/mi foto favorita.jpeg. Revisá el nombre y la ruta."
+              );
+            }, { once: true });
+          }
+        } else {
+          openFavoriteLightbox();
+        }
+      });
+
+      // CORAZONES FLOTANDO EN EL FONDO
+
+      const container = document.getElementById("hearts");
       if (!container || reduceMotion) return;
 
       const isMobile = window.matchMedia("(max-width: 600px)").matches;
       const symbols = ["♡", "♥", "ღ"];
       const colors = ["#d96b89", "#e9a0b3", "#c94f70", "#edbdc9"];
-      const maxHearts = isMobile ? 9 : 18;
-      const interval = isMobile ? 1500 : 900;
+      const maxHearts = isMobile ? 8 : 16;
+      const interval = isMobile ? 1700 : 1100;
       let activeHearts = 0;
 
       function createHeart() {
@@ -362,17 +1092,12 @@
 
         const heart = document.createElement("span");
         heart.className = "heart";
-        heart.textContent =
-          symbols[Math.floor(Math.random() * symbols.length)];
-
+        heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
         heart.style.left = Math.random() * 96 + "%";
         heart.style.fontSize =
           (isMobile ? 12 + Math.random() * 8 : 14 + Math.random() * 14) + "px";
-        heart.style.color =
-          colors[Math.floor(Math.random() * colors.length)];
-
-        const duration = 14 + Math.random() * 8;
-        heart.style.animationDuration = duration + "s";
+        heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+        heart.style.animationDuration = (14 + Math.random() * 8) + "s";
 
         activeHearts++;
         container.appendChild(heart);
@@ -384,13 +1109,259 @@
       }
 
       const initialCount = isMobile ? 3 : 6;
-
       for (let i = 0; i < initialCount; i++) {
-        setTimeout(createHeart, i * (isMobile ? 1300 : 800));
+        window.setTimeout(createHeart, i * (isMobile ? 1300 : 800));
       }
 
       window.setInterval(createHeart, interval);
     })();
+  </script>
+
+  <!-- REPRODUCTOR MUSICAL -->
+  <div class="music-player" id="musicPlayer">
+    <audio id="siteAudio" preload="metadata">
+      <source src="/tema/Trueno - SOLO POR VOS (Video Oficial).mp3" type="audio/mpeg">
+    </audio>
+
+    <button class="music-play" id="musicPlay" aria-label="Reproducir canción" type="button">
+      ▶
+    </button>
+
+    <div class="music-info">
+      <span class="music-title">Nuestra canción ♡</span>
+      <span class="music-status" id="musicStatus">Una canción para vos</span>
+    </div>
+
+    <button class="music-volume-icon" id="volumeToggle" type="button" aria-label="Silenciar o activar sonido">
+      ♫
+    </button>
+
+    <input
+      class="music-volume"
+      id="musicVolume"
+      type="range"
+      min="0"
+      max="1"
+      step="0.01"
+      value="0.6"
+      aria-label="Volumen"
+    >
+  </div>
+
+  <style>
+    .music-player {
+      position: fixed;
+      z-index: 50;
+      left: 18px;
+      bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      width: min(330px, calc(100vw - 28px));
+      padding: 12px 14px;
+      border: 1px solid #e8cbd2;
+      border-radius: 18px;
+      background: rgba(255, 250, 247, .96);
+      box-shadow: 0 8px 30px rgba(91, 49, 62, .15);
+      backdrop-filter: blur(12px);
+      color: #bd4e70;
+    }
+
+    .music-player button {
+      flex-shrink: 0;
+      cursor: pointer;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .music-play {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: #d96b89;
+      color: white;
+      font-size: 16px;
+      transition: transform .2s, background .2s;
+    }
+
+    .music-play:hover {
+      transform: scale(1.07);
+      background: #bd4e70;
+    }
+
+    .music-info {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-width: 0;
+      gap: 3px;
+    }
+
+    .music-title {
+      overflow: hidden;
+      color: #754654;
+      font-size: 12px;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .music-status {
+      color: #a98b93;
+      font-size: 10px;
+    }
+
+    .music-volume-icon {
+      padding: 5px;
+      border: 0;
+      background: transparent;
+      color: #bd4e70;
+      font-size: 18px;
+    }
+
+    .music-volume {
+      width: 65px;
+      accent-color: #d96b89;
+      cursor: pointer;
+    }
+
+    @media (max-width: 400px) {
+      .music-player {
+        left: 10px;
+        bottom: 10px;
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .music-volume { width: 48px; }
+    }
+  </style>
+
+  <script>
+  (() => {
+    const audio = document.getElementById("siteAudio");
+    const playButton = document.getElementById("musicPlay");
+    const status = document.getElementById("musicStatus");
+    const volume = document.getElementById("musicVolume");
+    const volumeToggle = document.getElementById("volumeToggle");
+
+    if (!audio || !playButton) return;
+
+    const KEY = "lunaMusicPlayer";
+    let saved = {};
+
+    try {
+      saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+    } catch (error) {
+      saved = {};
+    }
+
+    audio.volume = typeof saved.volume === "number" ? saved.volume : 0.6;
+    volume.value = audio.volume;
+
+    function saveState() {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          time: audio.currentTime || 0,
+          volume: audio.volume,
+          playing: !audio.paused && !audio.ended
+        }));
+      } catch (error) {}
+    }
+
+    function updatePlayer() {
+      playButton.textContent = audio.paused ? "▶" : "Ⅱ";
+      playButton.setAttribute(
+        "aria-label",
+        audio.paused ? "Reproducir canción" : "Pausar canción"
+      );
+
+      if (audio.error) {
+        status.textContent = "No se pudo cargar la canción";
+      } else {
+        status.textContent = audio.paused ? "Pausada ♡" : "Sonando para vos ♡";
+      }
+
+      saveState();
+    }
+
+    playButton.addEventListener("click", async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+        } catch (error) {
+          status.textContent = "Tocá de nuevo para reproducir";
+        }
+      } else {
+        audio.pause();
+      }
+
+      updatePlayer();
+    });
+
+    volume.addEventListener("input", () => {
+      audio.volume = Number(volume.value);
+      if (audio.volume > 0) audio.muted = false;
+      volumeToggle.textContent = audio.muted || audio.volume === 0 ? "♪" : "♫";
+      saveState();
+    });
+
+    volumeToggle.addEventListener("click", () => {
+      audio.muted = !audio.muted;
+      volumeToggle.textContent = audio.muted ? "♪" : "♫";
+
+      if (!audio.muted && audio.volume === 0) {
+        audio.volume = 0.6;
+        volume.value = 0.6;
+      }
+
+      saveState();
+    });
+
+    audio.addEventListener("play", updatePlayer);
+    audio.addEventListener("pause", updatePlayer);
+    audio.addEventListener("ended", () => {
+      status.textContent = "La canción terminó ♡";
+      saveState();
+    });
+
+    audio.addEventListener("error", () => {
+      status.textContent = "Revisá el archivo de audio";
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      if (!audio.paused) saveState();
+    });
+
+    // Recupera el punto de reproducción al cargar la otra página.
+    audio.addEventListener("loadedmetadata", async () => {
+      try {
+        if (Number.isFinite(saved.time) && saved.time > 0) {
+          audio.currentTime = Math.min(
+            saved.time,
+            Math.max(0, audio.duration - 0.5)
+          );
+        }
+
+        if (saved.playing) {
+          try {
+            await audio.play();
+          } catch (error) {
+            status.textContent = "Tocá ▶ para continuar la canción";
+          }
+        }
+      } catch (error) {}
+
+      updatePlayer();
+    }, { once: true });
+
+    // Guarda el estado justo antes de abandonar la página.
+    window.addEventListener("pagehide", saveState);
+
+    updatePlayer();
+  })();
   </script>
 </body>
 </html>
