@@ -5,30 +5,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f8f1ed">
+  <meta name="description" content="Nuestros momentos más randoms, Luna.">
+  <title>Nuestros randoms ❤️</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <title>Nuestros randoms ♡</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #f8f1ed;
+      --background: #f8f1ed;
+      --text: #382b2e;
+      --muted: #8c7379;
       --pink: #d96b89;
-      --dark-pink: #b83257;
-      --text: #684852;
+      --pink-dark: #bd4e70;
+      --white: #fffaf8;
+      --shadow: 0 12px 35px rgba(116, 64, 79, 0.10);
     }
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Poppins', sans-serif;
+      margin: 0;
       min-height: 100vh;
+      background: var(--background);
+      color: var(--text);
+      font-family: "Poppins", sans-serif;
       overflow-x: hidden;
     }
 
@@ -38,22 +47,33 @@
       overflow: hidden;
       pointer-events: none;
       z-index: 0;
+      contain: strict;
     }
 
     .heart {
       position: absolute;
-      bottom: -40px;
-      animation: floatUp linear forwards;
-      opacity: 0;
+      bottom: -45px;
+      display: block;
+      line-height: 1;
       user-select: none;
+      pointer-events: none;
+      opacity: 0;
+      animation: floatUp linear forwards;
     }
 
     @keyframes floatUp {
-      0% { transform: translateY(0) rotate(0); opacity: 0; }
-      15% { opacity: .45; }
-      85% { opacity: .3; }
+      0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+        opacity: 0;
+      }
+      12% {
+        opacity: 0.35;
+      }
+      85% {
+        opacity: 0.25;
+      }
       100% {
-        transform: translateY(-110vh) rotate(35deg);
+        transform: translate3d(12px, -110vh, 0) rotate(25deg);
         opacity: 0;
       }
     }
@@ -61,112 +81,204 @@
     main {
       position: relative;
       z-index: 1;
-      max-width: 950px;
-      margin: auto;
-      padding: 45px 22px 60px;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 45px 24px 35px;
     }
 
-    header {
+    .header {
       text-align: center;
-      margin: 25px 0 40px;
+      margin-bottom: 35px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 16px;
+      margin-bottom: 25px;
+      border: 1px solid #e7c5cd;
+      border-radius: 30px;
+      color: var(--pink-dark);
+      text-decoration: none;
+      font-size: 13px;
+      transition: background 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .back-link:hover {
+      background: #f3e3e5;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--pink);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
     }
 
     h1 {
-      font-size: clamp(36px, 8vw, 60px);
-      font-weight: normal;
-      color: var(--dark-pink);
-      margin-bottom: 12px;
+      margin: 0;
+      color: var(--pink-dark);
+      font-size: clamp(32px, 6vw, 54px);
+      font-weight: 700;
+      line-height: 1.2;
     }
 
-    header p {
-      color: #a66b7c;
-      line-height: 1.8;
+    .subtitle {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.7;
     }
 
-    .back {
-      display: inline-block;
-      color: var(--dark-pink);
-      text-decoration: none;
-      border: 1px solid #e4a4b5;
-      padding: 10px 18px;
-      border-radius: 30px;
-      margin-bottom: 25px;
-      transition: .25s;
-      background: rgba(255, 255, 255, .55);
+    .divider {
+      width: 50px;
+      height: 2px;
+      margin: 23px auto 0;
+      background: #e6b3c0;
+      border: 0;
     }
 
-    .back:hover {
-      background: var(--pink);
-      color: white;
+    .collage {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
     }
 
-    .gallery {
-      columns: 2;
-      column-gap: 17px;
-    }
-
-    .photo {
-      break-inside: avoid;
-      margin-bottom: 17px;
+    .memory {
+      min-width: 0;
+      overflow: hidden;
+      grid-column: span 3;
+      background: var(--white);
       padding: 8px;
-      border: 1px solid #e9cbd3;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, .68);
-      box-shadow: 0 8px 25px #8c46520a;
-      transition: transform .25s ease;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      transform: translateZ(0);
     }
 
-    .photo:hover {
-      transform: translateY(-4px) rotate(-.5deg);
+    .memory:nth-child(5) {
+      grid-column: 2 / span 4;
     }
 
-    .photo img,
-    .photo video {
+    .memory img,
+    .memory video {
       display: block;
       width: 100%;
       height: auto;
-      border-radius: 9px;
-      background: #f4e5e8;
-    }
-
-    .photo img {
+      max-height: 520px;
       object-fit: cover;
+      border-radius: 10px;
+      background: #f0e4e1;
     }
 
-    .photo video {
-      aspect-ratio: auto;
+    .memory img {
+      aspect-ratio: 4 / 5;
     }
 
-    .photo figcaption {
+    .memory video {
+      aspect-ratio: 9 / 16;
+    }
+
+    .memory figcaption {
+      padding: 12px 5px 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
       text-align: center;
-      padding: 12px 4px 5px;
-      color: #a66b7c;
-      font-size: 14px;
     }
 
-    footer {
+    .end-note {
+      margin: 40px 0 20px;
+      color: var(--pink-dark);
+      font-size: 17px;
       text-align: center;
-      color: #b17c8b;
-      margin-top: 40px;
-      font-size: 14px;
       line-height: 1.8;
     }
 
-    @media (min-width: 700px) {
-      .gallery { columns: 3; }
+    footer {
+      padding: 10px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 300;
+      text-align: center;
     }
 
-    @media (max-width: 380px) {
-      main { padding: 30px 12px; }
-      .gallery { column-gap: 10px; }
-      .photo { margin-bottom: 10px; padding: 5px; }
-      .photo figcaption { font-size: 12px; }
+    @media (max-width: 600px) {
+      main {
+        padding: 25px 14px 25px;
+      }
+
+      .header {
+        margin-bottom: 25px;
+      }
+
+      .back-link {
+        margin-bottom: 22px;
+      }
+
+      .eyebrow {
+        letter-spacing: 2px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+        padding: 0 8px;
+      }
+
+      .collage {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .memory,
+      .memory:nth-child(5) {
+        grid-column: 1;
+        width: 100%;
+        max-width: 440px;
+        justify-self: center;
+        padding: 6px;
+        border-radius: 14px;
+      }
+
+      .memory img {
+        aspect-ratio: 4 / 5;
+        max-height: none;
+      }
+
+      .memory video {
+        aspect-ratio: 9 / 16;
+        max-height: 72vh;
+        object-fit: contain;
+      }
+
+      .memory figcaption {
+        font-size: 12px;
+      }
+
+      .end-note {
+        font-size: 15px;
+        margin-top: 30px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
+      html {
+        scroll-behavior: auto;
+      }
+
+      .heart {
+        display: none;
+        animation: none;
+      }
+
+      .back-link {
+        transition: none;
       }
     }
   </style>
@@ -176,95 +288,109 @@
   <div id="hearts" aria-hidden="true"></div>
 
   <main>
-    <header>
-      <a class="back" href="index.html">← Volver a nuestra página</a>
-
-      <h1>Nuestros randoms ♡</h1>
-
-      <p>
-        Las fotos que no necesitan explicación.<br>
-        Simplemente nosotros siendo nosotros.
-      </p>
+    <header class="header">
+      <a class="back-link" href="index.html">← Volver a nuestra página</a>
+      <p class="eyebrow">Te amo</p>
+      <h1>Vos y yo ❤ </h1>
+      <hr class="divider">
     </header>
 
-    <section class="gallery" aria-label="Fotos y videos nuestros">
-
-      <!-- FOTO 1 -->
-      <figure class="photo">
-        <img src="fotos/foto 5.jpeg" alt="Un momento random nuestro" loading="lazy">
+    <section class="collage" aria-label="Fotos y videos de nuestros momentos">
+      <figure class="memory">
+        <img src="fotos/foto 5.jpeg" alt="Un recuerdo random nuestro" loading="lazy" decoding="async">
+        <figcaption>Cara de orto 👸🏻</figcaption>
       </figure>
 
-      <!-- VIDEO 1 -->
-      <figure class="photo">
-        <video autoplay controls playsinline preload="metadata" poster="fotos/random2.jpeg">
-          <source src="/fotos/video 1.mp4" type="video/mp4">
+      <figure class="memory">
+        <img src="fotos/foto 6.jpeg" alt="Otro momento juntos" loading="lazy" decoding="async">
+        <figcaption>Re dun 😂</figcaption>
+      </figure>
+
+      <figure class="memory">
+        <video controls playsinline preload="metadata" poster="fotos/random2.jpeg">
+          <source src="fotos/video 1.mp4" type="video/mp4">
           Tu navegador no puede reproducir este video.
         </video>
       </figure>
 
-      <!-- FOTO 2 -->
-      <figure class="photo">
-        <img src="fotos/foto 6.jpeg" alt="Una foto espontánea" loading="lazy">
+      <figure class="memory">
+        <img src="fotos/foto 7.jpeg" alt="Un momento especial" loading="lazy" decoding="async">
+        <figcaption>Ella jura ❤</figcaption>
       </figure>
 
-      <!-- FOTO 3 -->
-      <figure class="photo">
-        <img src="fotos/foto 7.jpeg" alt="Un recuerdo gracioso" loading="lazy">
+      <figure class="memory">
+        <img src="fotos/foto 8.jpeg" alt="Un recuerdo más de nosotros" loading="lazy" decoding="async">
+        <figcaption>Re paragua </figcaption>
       </figure>
 
-      <!-- VIDEO 2 -->
-      <figure class="photo">
+      <figure class="memory">
         <video controls playsinline preload="metadata" poster="fotos/random4.jpeg">
-          <source src="/fotos/video 2.mp4" type="video/mp4">
+          <source src="fotos/video 2.mp4" type="video/mp4">
           Tu navegador no puede reproducir este video.
         </video>
-        <figcaption>Un pedacito de nosotros ♡</figcaption>
       </figure>
 
-      <!-- FOTO 4 -->
-      <figure class="photo">
-        <img src="fotos/foto 8.jpeg" alt="Un momento juntos" loading="lazy">
-        <figcaption>Mi compañera de locuras.</figcaption>
+      <figure class="memory">
+        <img src="fotos/foto 9.jpeg" alt="Nuestro último recuerdo de esta página" loading="lazy" decoding="async">
+              <figcaption>No se que es esta foto</figcaption>
       </figure>
-
-      <!-- FOTO 5 -->
-      <figure class="photo">
-        <img src="fotos/foto 9.jpeg" alt="Una selfie juntos" loading="lazy">
-        <figcaption>Qué lindo coincidir con vos.</figcaption>
-      </figure>
-
     </section>
+
+    <footer>
+      Hago lo que puedo, perdon
+    </footer>
   </main>
 
   <script>
-    const container = document.getElementById("hearts");
-    const symbols = ["♡", "♥", "ღ", "❤"];
-    const colors = ["#d96b89", "#e9a0b3", "#c94f70", "#edbdc9"];
+    (() => {
+      const container = document.getElementById("hearts");
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
 
-    function createHeart() {
-      const heart = document.createElement("span");
-      heart.className = "heart";
+      if (!container || reduceMotion) return;
 
-      heart.textContent =
-        symbols[Math.floor(Math.random() * symbols.length)];
+      const isMobile = window.matchMedia("(max-width: 600px)").matches;
+      const symbols = ["♡", "♥", "ღ"];
+      const colors = ["#d96b89", "#e9a0b3", "#c94f70", "#edbdc9"];
+      const maxHearts = isMobile ? 9 : 18;
+      const interval = isMobile ? 1500 : 900;
+      let activeHearts = 0;
 
-      heart.style.left = Math.random() * 100 + "%";
-      heart.style.fontSize = (12 + Math.random() * 20) + "px";
-      heart.style.color =
-        colors[Math.floor(Math.random() * colors.length)];
+      function createHeart() {
+        if (activeHearts >= maxHearts) return;
 
-      const duration = 9 + Math.random() * 10;
-      heart.style.animationDuration = duration + "s";
+        const heart = document.createElement("span");
+        heart.className = "heart";
+        heart.textContent =
+          symbols[Math.floor(Math.random() * symbols.length)];
 
-      container.appendChild(heart);
-      setTimeout(() => heart.remove(), (duration + 1) * 1000);
-    }
+        heart.style.left = Math.random() * 96 + "%";
+        heart.style.fontSize =
+          (isMobile ? 12 + Math.random() * 8 : 14 + Math.random() * 14) + "px";
+        heart.style.color =
+          colors[Math.floor(Math.random() * colors.length)];
 
-    for (let i = 0; i < 22; i++) {
-      setTimeout(createHeart, i * 250);
-    }
+        const duration = 14 + Math.random() * 8;
+        heart.style.animationDuration = duration + "s";
 
-    setInterval(createHeart, 600);
+        activeHearts++;
+        container.appendChild(heart);
+
+        heart.addEventListener("animationend", () => {
+          heart.remove();
+          activeHearts = Math.max(0, activeHearts - 1);
+        }, { once: true });
+      }
+
+      const initialCount = isMobile ? 3 : 6;
+
+      for (let i = 0; i < initialCount; i++) {
+        setTimeout(createHeart, i * (isMobile ? 1300 : 800));
+      }
+
+      window.setInterval(createHeart, interval);
+    })();
   </script>
 </body>
 </html>
