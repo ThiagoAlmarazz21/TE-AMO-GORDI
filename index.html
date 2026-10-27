@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f1ed">
+  <title>TE AMO — Luna Bonavita</title>
+
+  <style>
+    :root {
+      --bg: #f8f1ed;
+      --pink: #d96b89;
+      --dark-pink: #b83257;
+      --text: #684852;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--text);
+    font-family: 'Poppins', sans-serif;
+    }
+
+    #hearts {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      animation: floatUp linear infinite;
+      opacity: 0;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      15% { opacity: .45; }
+      85% { opacity: .3; }
+      100% {
+        transform: translateY(-115vh) rotate(35deg);
+        opacity: 0;
+      }
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: auto;
+      padding: 65px 22px 35px;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 0 40px;
+      animation: appear 1.2s ease both;
+    }
+
+    .eyebrow {
+      color: var(--pink);
+      font-size: 12px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+
+    p{
+        font-size: 16px;
+    }
+
+    h1 {
+      color: var(--dark-pink);
+      font-size: clamp(48px, 11vw, 88px);
+      letter-spacing: 5px;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    .name {
+      font-size: 15px;
+      letter-spacing: 4px;
+      margin-top: 14px;
+      color: #a66b7c;
+    }
+
+    .little-heart {
+      margin-top: 24px;
+      color: var(--pink);
+      font-size: 22px;
+      letter-spacing: 12px;
+    }
+
+    .intro {
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto 30px;
+      font-size: 16px;
+      line-height: 1.9;
+      color: #805c66;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 27px;
+      font-weight: normal;
+      color: var(--dark-pink);
+      margin-bottom: 25px;
+    }
+
+    .random-button-container {
+      text-align: center;
+      margin: 0 auto 55px;
+    }
+
+    .random-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 24px;
+      border: 1px solid #e4a4b5;
+      border-radius: 50px;
+      color: var(--dark-pink);
+      background: rgba(255, 255, 255, .65);
+      text-decoration: none;
+      font-size: 15px;
+      transition: .3s ease;
+      box-shadow: 0 5px 20px #b8325710;
+    }
+
+    .random-button:hover {
+      background: var(--pink);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .random-button-container p {
+      margin-top: 12px;
+      color: #a66b7c;
+      font-size: 13px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+
+    .photo {
+      padding: 9px;
+      background: rgba(255, 255, 255, .65);
+      border: 1px solid #e9cbd3;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px #8c46520a;
+      transition: transform .3s ease;
+    }
+
+    .photo:nth-child(even) {
+      transform: rotate(1deg);
+    }
+
+    .photo:hover {
+      transform: translateY(-5px);
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 9px;
+    }
+
+    .photo figcaption {
+      padding: 13px 5px 5px;
+      text-align: center;
+      font-size: 14px;
+      color: #a66b7c;
+    }
+
+    .letter {
+      max-width: 620px;
+      margin: 0 auto 45px;
+      padding: 35px clamp(20px, 5vw, 45px);
+      border: 1px solid #e9cbd3;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .48);
+      text-align: center;
+      line-height: 2;
+      font-size: 16px;
+    }
+
+    .letter h2 {
+      color: var(--dark-pink);
+      font-size: 26px;
+      font-weight: normal;
+      margin-bottom: 18px;
+    }
+
+    .letter p + p {
+      margin-top: 14px;
+    }
+
+    .signature {
+      color: var(--dark-pink);
+      font-size: 21px;
+      margin-top: 22px !important;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 0 10px;
+      font-size: 13px;
+      color: #b17c8b;
+      letter-spacing: 1px;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 35px 16px 25px; }
+      .gallery { gap: 11px; }
+      .photo { padding: 6px; }
+      .photo figcaption { font-size: 12px; }
+      .letter { padding: 27px 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<body>
+  <div id="hearts" aria-hidden="true"></div>
+
+  <main>
+    <header>
+      <p class="eyebrow">Para mi persona favorita</p>
+      <h1>TE AMO</h1>
+      <h2 class="name">Luna Bonavita</p>
+      <div class="little-heart">♡ ♥ ♡</div>
+    </header>
+
+    <p class="intro">
+      Entre tantas personas en el mundo,
+      qué lindo haber coincidido con vos.
+      <br>
+      <span style="color: var(--dark-pink)">
+       ♡ Sos mi lugar favorito ♡
+      </span>
+    </p>
+
+    <div class="random-button-container">
+      <a href="randoms.html" class="random-button">
+        <span>♡</span>
+        Nuestros momentos randoms
+        <span>↗</span>
+      </a>
+      <p>No te enojes 😂❤</p>
+    </div>
+
+    <section>
+      <h2 class="section-title">♡ Un poquito de nosotros ♡</h2>
+
+      <div class="gallery">
+        <figure class="photo">
+          <img src="fotos/foto 2.jpeg" alt="Un recuerdo nuestro">
+          <figcaption>Mi persona favorita ♡</figcaption>
+        </figure>
+
+        <figure class="photo">
+          <img src="fotos/foto 1.jpeg" alt="Otro recuerdo nuestro">
+          <figcaption>Vos y yo</figcaption>
+        </figure>
+
+        <figure class="photo">
+          <img src="fotos/foto 3.jpeg" alt="Un momento juntos">
+          <figcaption>Momento que guardo</figcaption>
+        </figure>
+
+                <figure class="photo">
+          <img src="fotos/foto 4.jpeg" alt="Un momento juntos">
+          <figcaption>❤</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="letter">
+      <h2>Para vos, Luna 💌</h2>
+
+      <p>
+        No sé si existen las palabras perfectas para explicar
+        todo lo que siento por vos, pero quiero que nunca te
+        olvides de lo importante que sos para mí.
+      </p>
+
+      <p>
+        Me encanta compartir momentos con vos, reírme con vos
+        y tenerte en mi vida. Si pudiera elegir una y otra vez,
+        volvería a elegirte a vos.
+      </p>
+
+      <p>
+        Esta paginita es una pequeña forma de recordarte
+        que te amo y que cada momento juntos significa
+        muchísimo para mí.
+      </p>
+
+            <p>No soy el mejor pero lo intento :P
+      </p>
+
+      <p class="signature">Te amo ♡</p>
+    </section>
+
+    <footer>
+     ❤ HECHO CON AMOR, PARA VOS ❤
+    </footer>
+  </main>
+
+  <script>
+    const container = document.getElementById("hearts");
+    const symbols = ["♡", "♥", "❤", "ღ"];
+    const colors = ["#d96b89", "#e9a0b3", "#c94f70", "#edbdc9"];
+
+    function createHeart() {
+      const heart = document.createElement("span");
+      heart.className = "heart";
+      heart.textContent =
+        symbols[Math.floor(Math.random() * symbols.length)];
+
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.fontSize = 12 + Math.random() * 22 + "px";
+      heart.style.color =
+        colors[Math.floor(Math.random() * colors.length)];
+
+      const duration = 9 + Math.random() * 12;
+      heart.style.animationDuration = duration + "s";
+
+      container.appendChild(heart);
+      setTimeout(() => heart.remove(), (duration + 1) * 1000);
+    }
+
+    for (let i = 0; i < 24; i++) {
+      setTimeout(createHeart, i * 300);
+    }
+
+    setInterval(createHeart, 650);
+  </script>
+</body>
+</html>
